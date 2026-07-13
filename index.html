@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Newsbox</title>
+
+<!-- PWA / iOS home screen setup -->
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Newsbox">
+<meta name="theme-color" content="#1A2332">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header class="app-header">
+  <div class="header-row">
+    <button id="menuBtn" class="icon-btn" aria-label="Menu">☰</button>
+    <h1 class="app-title">Newsbox</h1>
+    <div class="header-actions">
+      <button id="searchBtn" class="icon-btn" aria-label="Search">⌕</button>
+      <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">◐</button>
+    </div>
+  </div>
+  <!-- Signature element: live ticker -->
+  <div class="ticker-wrap" id="tickerWrap">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-item">Loading ticker…</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Side menu (More sheet) ===== -->
+<div id="menuOverlay" class="overlay hidden"></div>
+<nav id="sideMenu" class="side-menu hidden">
+  <div class="side-menu-title">Newsbox</div>
+  <a href="#briefing" class="side-link" data-route="briefing">📰 Daily Briefing</a>
+  <a href="#xfeed" class="side-link" data-route="xfeed">𝕏 X Feed</a>
+  <a href="#bookmarks" class="side-link" data-route="bookmarks">🔖 Bookmarks</a>
+  <a href="#dashboard" class="side-link" data-route="dashboard">📊 Dashboard</a>
+  <a href="#settings" class="side-link" data-route="settings">⚙ Settings</a>
+</nav>
+
+<!-- ===== Search overlay ===== -->
+<div id="searchOverlay" class="search-overlay hidden">
+  <div class="search-bar-row">
+    <input id="searchInput" type="text" placeholder="Search headlines, topics, bookmarks…" autocomplete="off">
+    <button id="searchCloseBtn" class="icon-btn">✕</button>
+  </div>
+  <div id="searchResults" class="search-results"></div>
+</div>
+
+<!-- ===== Main content ===== -->
+<main id="viewRoot" class="view-root">
+  <!-- rendered by app.js -->
+</main>
+
+<!-- ===== Bottom tab nav ===== -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-route="home"><span class="nav-icon">⌂</span><span>Home</span></button>
+  <button class="nav-btn" data-route="sports"><span class="nav-icon">🏏</span><span>Sports</span></button>
+  <button class="nav-btn" data-route="india"><span class="nav-icon">🇮🇳</span><span>India</span></button>
+  <button class="nav-btn" data-route="trending"><span class="nav-icon">📈</span><span>Trending</span></button>
+  <button class="nav-btn" data-route="more"><span class="nav-icon">⋯</span><span>More</span></button>
+</nav>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="js/db.js"></script>
+<script src="js/feeds.js"></script>
+<script src="js/trending.js"></script>
+<script src="js/briefing.js"></script>
+<script src="js/sample-data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
