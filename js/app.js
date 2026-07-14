@@ -414,8 +414,11 @@ async function openArticle(id){
     <div class="reader-header">
       <div class="card-eyebrow">${escapeHtml(a.source)} · ${escapeHtml(a.subcategory||'')}</div>
       <h1 class="reader-title" id="readerTitle">${escapeHtml(a.title)}</h1>
-      <div class="reader-meta">${timeAgo(a.pubDate)} · <a href="${a.link}" target="_blank" rel="noopener">Original ↗</a></div>
+      <div class="reader-meta">${timeAgo(a.pubDate)}</div>
     </div>
+    <a href="${a.link}" target="_blank" rel="noopener" class="btn btn-primary" style="display:block;text-align:center;width:100%;margin-bottom:14px;font-size:15px;padding:14px;">
+      Read full article on ${escapeHtml(a.source)} ↗
+    </a>
     <div class="font-controls">
       <span style="font-size:12.5px;color:var(--ink-faint);">Text size</span>
       <button id="fontDown">A−</button><button id="fontUp">A+</button>
@@ -424,8 +427,9 @@ async function openArticle(id){
       <button class="chip-btn" id="shareBtn">↗ Share</button>
     </div>
     <div class="reader-body" id="readerBody" style="font-size:${SETTINGS.fontSize}px;">
-      ${escapeHtml(a.summary)}${a.content && a.content.length > a.summary.length ? '<p>'+escapeHtml(a.content.slice(0,1500))+'</p>' : ''}
-      <p style="color:var(--ink-faint);font-size:13px;">Full article available at the source — tap "Original" above. Newsbox stores headlines and summaries locally for offline reading; long-form text isn't republished here.</p>
+      <p style="font-weight:600;">${escapeHtml(a.summary)}</p>
+      ${a.content && a.content.length > a.summary.length ? '<p>'+escapeHtml(a.content.slice(0,1500))+'</p>' : ''}
+      <p style="color:var(--ink-faint);font-size:13px;">This is the summary provided by ${escapeHtml(a.source)}'s feed — RSS sources only include a short excerpt, not the full story. Tap the button above for the complete article on their site.</p>
     </div>`;
 
   document.getElementById('backBtn').addEventListener('click', ()=> history.back());
