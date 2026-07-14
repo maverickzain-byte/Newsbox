@@ -1,9 +1,13 @@
 /* ===========================================================
-   Newsbox — service-worker.js
+   Newsbox — service-worker.js  (v2)
    Caches the app shell so the UI loads offline. Article data
    itself lives in IndexedDB (see js/db.js), not here.
+
+   Strategy: network-first for the app shell. Tries the network
+   so edits you push to GitHub show up on next reopen; falls
+   back to the cached copy only when there's no connection.
 =========================================================== */
-const CACHE_NAME = 'newsbox-shell-v1';
+const CACHE_NAME = 'newsbox-shell-v2';
 const SHELL_FILES = [
   './',
   './index.html',
@@ -13,6 +17,7 @@ const SHELL_FILES = [
   './js/feeds.js',
   './js/trending.js',
   './js/briefing.js',
+  './js/sample-data.js',
   './js/app.js',
   './icons/icon-192.png',
   './icons/icon-512.png'
@@ -38,15 +43,12 @@ self.addEventListener('fetch', (event)=>{
   if(event.request.method !== 'GET' || url.origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(event.request).then(cached=>{
-      const networkFetch = fetch(event.request).then(resp=>{
-        if(resp && resp.status === 200){
-          const clone = resp.clone();
-          caches.open(CACHE_NAME).then(cache=>cache.put(event.request, clone));
-        }
-        return resp;
-      }).catch(()=>cached);
-      return cached || networkFetch;
-    })
+    fetch(event.request).then(resp=>{
+      if(resp && resp.status === 200){
+        const clone = resp.clone();
+        caches.open(CACHE_NAME).then(cache=>cache.put(event.request, clone));
+      }
+      return resp;
+    }).catch(()=> caches.match(event.request))
   );
 });
